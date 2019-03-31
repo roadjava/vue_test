@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>vue模板语法</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>“{{}}”语法，里面可以写js代码，用于绑定model里面的数据，即获取model里面的数据</h1>
+		<p>{{website}}</p>
+		<p>{{website.toUpperCase()}}</p>
+		<!-- 等价于{{}}语法,解析的时候去掉了a标签，只显示文本 -->
+		<p v-text="alink"></p>
+		<!-- v-html把数据当做html解析，解析html标签 -->
+		<p v-html="alink"></p>
+		
+		<h1>v-bind强制数据绑定</h1>
+		<img v-bind:src="image"/>
+		<!-- v-bind:可以简写为: -->
+		<img :src="image"/>
+		
+		<h1>v-on:绑定事件监听</h1>
+		<input type="button" value="测试v-on事件监听" v-on:click="test">
+		<!-- v-on:可以简写为@事件名，参数可以直接写model里面的key -->
+		<input type="button" @click="test2(website)" value="测试@事件监听">
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				website:"http://www.roadjava.com",
+				alink:"<a href='http://www.roadjava.com'>我是一个超链接</a>",
+				image:"https://cn.vuejs.org/images/logo.png"
+			},
+			methods:{
+				test:function(){
+					alert("vue的methods属性用来存放事件回调函数");
+				},
+				test2(param){
+					alert(param);
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -2,9 +2,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>vue初体验--实现输入监听</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
 </head>
 <body>
-
+	<div id="app">
+		<input type="text" v-model="inputValue" />
+		<div>Hello {{inputValue}}</div>
+	</div>
+	<script>
+	   /*
+	   vue实现的是mvvm模型。
+	   m:model,在这里指定是options里面的data
+	   v:view ，此处指的是input
+	   viewmodel：
+	   	监听(listners)v的改动同步给model，此处通过v-model指令实现；
+	   	绑定（binds）model的变化到view，通过{{}}实现
+	   */
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				inputValue:"初始化的值:赵道稳"
+			}
+		});
+	</script>
 </body>
 </html>
