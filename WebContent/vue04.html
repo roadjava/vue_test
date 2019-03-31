@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>vue绑定class和style</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+<style>
+	.sizeClass{
+		font-size:40px;
+	}
+	.redClass{
+		color:red;
+	}
+	.green{
+		color:green;
+	}
+</style>
+</head>
+<body>
+	<div id="app">
+		<h1>class绑定</h1>
+		<p class="sizeClass" :class="clz">通过vue :class="字符串"来绑定class</p>
+		<p class="sizeClass" :class="{green:boolGreen,redClass:redBool}">通过vue 
+		:class="{css类:boolean}"来绑定class,注意css类不能带.</p>
+		<p class="sizeClass" :class="['redClass']">通过vue :class="['css类']"来绑定class
+			css类要用单引号
+		</p>
+		<button @click="change">改变样式</button>
+		
+		<h1>style绑定</h1>
+		<p :style="{fontSize:fontSizeStyle+'px',color:styleColor}">style绑定,注意vue指令里面的都是js语法</p>
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				// clz表示已经定义的一个css 类,redClass不能写.
+				clz:"redClass",
+				boolGreen:true,
+				redBool:false,
+				styleColor:"yellow",
+				fontSizeStyle:33
+			},
+			methods:{
+				change:function(){
+					this.clz="green";
+				}
+			}
+		});
+	</script>
+</body>
+</html>
