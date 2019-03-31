@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>vue列表遍历：数组与对象</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>遍历数组</h1>
+		  输入人名过滤:<input type="text" v-model="searchName">
+			<ul>
+			    <!-- index为当前元素所在persons中的下标 -->
+				<li v-for="(onePerson,index) in filteredPersons" :key="index">
+					下标:{{index}},人编号:{{onePerson.id}},姓名:{{onePerson.name}}
+					,年龄:{{onePerson.age}}----<button @click="deleteOne(index)">删除</button>
+					---<button @click="updateOne(index,{id:2,age:31,name:'小刀'})">更新</button>
+				</li>
+			</ul>
+		  <button @click="sort(1)">年龄升序排序</button>	
+		  <button @click="sort(2)">年龄降序排序</button>	
+		  <button @click="sort(0)">默认排序</button>	
+		<h1>遍历对象</h1>
+		<li v-for="(value,key) in persons[0]" :key="key">
+					{{key}}:{{value}}
+		</li>
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				persons:[
+				     {id:1,name:"zhao",age:30},    
+				     {id:2,name:"zhao2",age:31},    
+				     {id:3,name:"zhao3",age:32}    
+				],
+				searchName:'',
+				sortType:0
+			},
+			methods:{
+				deleteOne:function(index){
+					// splice（index,1）表示从index处删除，只删除一个
+					this.persons.splice(index,1);
+				},
+				updateOne(index,newObj){
+					// this.persons[index]=newObj;//这种写法无法同步到view，
+					this.persons.splice(index,1,newObj);
+				},
+				sort:function(type){
+					this.sortType=type;
+				}
+			
+			},
+			computed:{
+				// 初始化或者里面相关属性被改变时回调
+				filteredPersons:{
+					get(){
+						const {searchName,sortType}=this;
+						let filteredPersons=[];
+						// 跟java8里面的stream.filter类似
+						filteredPersons=this.persons.filter(onePerson=>{
+							return onePerson.name.indexOf(searchName)>-1;
+						});
+						// 跟java的compartor类似
+						filteredPersons.sort((p1,p2)=>{
+							if(sortType==1){//升序
+								return p1.age-p2.age;
+							}else if(sortType==2){ //降序
+								return p2.age-p1.age;
+							}
+						});
+						return filteredPersons;	
+					},
+					set(newPersons){
+						
+					}
+				}
+			}
+		});
+		
+		// 解构赋值
+		const obj={
+				id:1,
+				name:"abc",
+				company:{
+					title:"a公司",
+					feel:"感觉在这个公司很不爽"
+				}
+		};
+		// 如果obj是数组，则应该写成[a,b,c]。此处是对象，因此是{a,b,c}
+		let {name,nameValue,feel,company}=obj;
+		console.log(name); // abc
+		console.log(nameValue); // undifined，说明解构赋值中名字必须和要被解构的一样。
+		console.log(feel);// undifined ，说明不能跨层级解构
+		console.log(company);// compay对象
+		
+		// alert("abc".indexOf(""));//0
+	</script>
+</body>
+</html>
