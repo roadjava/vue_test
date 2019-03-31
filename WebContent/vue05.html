@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>vue条件渲染</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>条件渲染v-if与v-else、v-show</h1>
+		<p v-if="isDisplay">通过ifelse成功显示</p>
+		<p v-else="!isDisplay">通过ifelse失败显示</p>
+		<p v-show="isDisplay">通过v-show成功显示</p>
+		<p v-show="!isDisplay">通过v-show实现失败显示</p>
+		<!-- 取反再赋值 -->
+		<button @click="isDisplay=!isDisplay">切换isDisplay的boolean值</button>
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				isDisplay:true
+			}
+		});
+	</script>
+</body>
+</html>
