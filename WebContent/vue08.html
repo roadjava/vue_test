@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>vue表单数据绑定</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+	    <form @submit.prevent="processSubmit">
+			用户名:<input type="text" v-model="userName"/><br/>
+			密码:<input type="text" v-model="pwd"/><br/>
+			性别:<input type="radio" id="maleInput" value="male" v-model="sex"/>男
+			   <input type="radio" id="femaleInput" value="female"  v-model="sex"/>女<br/>
+			爱好:<input type="checkbox" id="basketInput" value="basket"  v-model="loves"/>篮球
+			<input type="checkbox" id="footInput" value="foot"  v-model="loves"/>足球
+			<input type="checkbox" id="ganlanInput" value="ganlan"  v-model="loves"/>橄榄球<br/>
+			所在地:
+			<!-- 别忘了，$("#selectedAddrSelect").val()是对应的selected的option的value，而v-model是跟表单元素的
+			value同步的
+			 -->
+			<select id="selectedAddrSelect" v-model="selectedAddr">
+				<option value=''>未选择</option>
+				<!-- :value表示强制绑定到vue上，就可以使用vue的特性了 -->
+				<option :value="addr.id" v-for="(addr,index) in addrs" :key="index">
+					{{addr.name}}
+				</option>
+			</select>   
+			<br/>
+			简介:
+			<textarea v-model="intro"></textarea><br/>
+			<input type="submit" value="提交注册">
+		</form>
+		<!-- v-model总是监听、同步的表单元素的value，其他元素加上根本就是报错 
+		<p v-model="pcont" @click="pclick">p段落之前的内容</p>-->
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			data:{
+				// pcont:'',
+				userName:'',
+				pwd:'',
+				sex:'female',//默认选中value='female'的input
+				loves:["foot"], //默认选中value='foot'的input
+			    selectedAddr:2,
+			    addrs:[
+						{id:1,name:"杭州"},{id:2,name:"民权"},{id:3,name:"背景"},
+			          ],
+			    intro:''      
+			},
+			methods:{
+				processSubmit(){
+					// 注意这里的this虽然是vm，但是可以直接访问data里面的变量，因此可以结构复制，因为
+					// vue把data里面的变量又在外层复制了一份
+					console.log(this);
+				} /*,
+				pclick(){
+					alert(pcont);
+					this.pcont='段落的新内容';
+				}*/
+			}
+		});
+	</script>
+</body>
+</html>
