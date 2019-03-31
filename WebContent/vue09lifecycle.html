@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>vue生命周期</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+	    <button @click="destoryVm">销毁vue对象</button>
+	    <p v-show="isShow">段落里面的内容，按秒切换显示与隐藏</p>
+	</div>
+	<script>
+	  /*
+	  	vue的生命周期：
+	  	new Vue--->beforeCreate--->init event等-->created-->在内存中解析
+	  	el指定的区域的vue指令-->beforeMount-->mounted(一般在这里发送ajax，初始化定时器等)
+	  	-->beforeUpdate-->
+	  	vue model(即data里面的属性)发送变化-->updated--->
+	  	beforeDestroy（由vm.$destroy触发，一般在这里清理资源，如清除定时器等）
+	  	-->destroy
+	  */
+		const vm = new Vue({
+			el:"#app",// 指定了vue所能管理的区域
+			data:{
+				isShow:true
+			},
+			// 名字固定，是vue的生命周期函数之一
+			mounted(){
+				/*
+				this.intervalId=setInterval(function(){
+					// 如果写成匿名函数的方式，那么此时的this指的是window(setInterval的调用者)。要写成箭头函数，
+					// 箭头函数的特征就是没有自己的this，而是去找上级的this，即vm
+					this.isShow=!this.isShow;	
+				},1000);
+				*/
+				this.intervalId=setInterval(()=>{
+					console.log("调用定时器");
+					this.isShow=!this.isShow;
+				},1000);
+			},
+			beforeDestroy(){
+				console.log("清理了定时器");
+				clearInterval(this.intervalId);
+			},
+			methods:{
+				destoryVm(){
+					this.$destroy();
+				}
+			}
+		});
+	</script>
+</body>
+</html>
