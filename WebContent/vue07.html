@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>vue事件监听、事件参数、事件修饰符、按键修饰符</title>
+<script type="text/javascript" src="./resources/js/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>事件参数</h1>
+		<button @click="test1">@click="test1"等价于@click="test1($event)",$event是
+			触发当前事件的事件对象，当你自己传递了其他参数时，则需要显式指定$event了
+		</button>
+		<h1>事件修饰符</h1>
+		<!-- .stop阻止事件冒泡 -->
+		<div style="width:200px;height:200px;background-color:red" @click.stop="outerClick">
+			<div style="width:100px;height:100px;background-color:green" @click="innerClick">
+			
+			</div>
+		</div>
+		<!-- .prevent阻止事件的默认行为 -->
+		<a href="https://www.baidu.com" @click.prevent="testPrevent">去百度</a>
+		<h1>按键修饰符</h1>
+		<input type="text" @keyup.13="testKeyCode">
+		<input type="text" @keyup.enter="testKeyCode">
+	</div>
+	<script>
+		const vm = new Vue({
+			el:"#app",
+			methods:{
+				test1:function(evt){
+					console.log(evt);
+					// 获取事件源对象的文本
+					alert(evt.target.innerHTML);
+				},
+				outerClick(evt){
+					alert("outer");
+				},
+				innerClick(evt){
+					// 原生js防止事件冒泡的方法，有兼容问题
+					// evt.stopPropagation();
+					alert("inner");
+				},
+				testPrevent(evt){
+					// 原生js通过这种方法阻止事件的默认行为
+					//evt.preventDefault();
+					alert("去百度按钮点击了");
+				},
+				testKeyCode(){
+					alert("按下了enter键");
+				}
+			}
+		});
+	</script>
+</body>
+</html>
